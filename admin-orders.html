@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<head>
+<title>admin-orders
+</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="admin-orders-page">
+
+  <div class="admin-orders-header">
+    <div>
+      <h1 class="admin-orders-title">Orders Dashboard</h1>
+      <p class="admin-orders-subtitle">
+        Monitor customer purchases, shipping progress, payment states, and stock updates.
+      </p>
+    </div>
+
+    <div class="admin-orders-summary">
+      <div class="summary-card">
+        <span>Total Orders</span>
+        <h2 id="totalOrders">0</h2>
+      </div>
+
+      <div class="summary-card">
+        <span>Pending</span>
+        <h2 id="pendingOrders">0</h2>
+      </div>
+
+      <div class="summary-card">
+        <span>Revenue</span>
+        <h2 id="totalRevenue">$0</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-orders-toolbar">
+    <input type="text" id="orderSearch" placeholder="Search order ID or customer name">
+
+    <select id="statusFilter">
+      <option value="">All Status</option>
+      <option value="Pending">Pending</option>
+      <option value="Paid">Paid</option>
+      <option value="Shipped">Shipped</option>
+      <option value="Delivered">Delivered</option>
+    </select>
+  </div>
+
+  <div class="admin-orders-list" id="adminOrdersList"></div>
+
+</section>
+
+<div id="adminOrders"></div>
+
+<script src="admin-orders.js"></script>
+</body>
+</html>
