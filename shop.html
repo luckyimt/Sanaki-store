@@ -9,7 +9,24 @@
 </head>
 <body>
 
-<div class="shop-topbar">
+
+</div>
+  <!-- HEADER -->
+  <header class="shop-header">
+    <div class="container header-content">
+      <h1 class="logo">My Store</h1>
+
+      <div class="header-actions">
+        <input type="text" id="searchInput" class="input search-input" placeholder="Search products...">
+
+        <button class="cart-button" onclick="toggleCart()">
+          🛒 Cart
+          <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="shop-topbar">
 
   <div class="shop-user-box">
     <div class="shop-user-avatar">
@@ -28,22 +45,6 @@
     </button>
   </div>
 
-</div>
-  <!-- HEADER -->
-  <header class="shop-header">
-    <div class="container header-content">
-      <h1 class="logo">My Store</h1>
-
-      <div class="header-actions">
-        <input type="text" id="searchInput" class="input search-input" placeholder="Search products...">
-
-        <button class="cart-button" onclick="toggleCart()">
-          🛒 Cart
-          <span id="cartCount" class="cart-count">0</span>
-        </button>
-      </div>
-    </div>
-  </header>
 
   <!-- HERO -->
   <section class="hero-section">
