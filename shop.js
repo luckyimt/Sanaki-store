@@ -1,18 +1,22 @@
-let products = JSON.parse(localStorage.getItem("products")) || [];
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-const userGreeting = document.getElementById("userGreeting");
-const userEmail = document.getElementById("userEmail");
-userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
-userEmail.textContent = currentUser.email;
-const cartCount = document.getElementById("cartCount");
-const productGrid = document.getElementById("productGrid");
-const cartItems = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
-const searchInput = document.getElementById("searchInput");
 
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+
+document.getElementById("userGreeting").textContent = currentUser.fullName;
+document.getElementById("userEmail").textContent = currentUser.email;
+document.getElementById("shopUserAvatar").textContent = currentUser.fullName.charAt(0).toUpperCase();
+
+const shopProductsGrid = document.getElementById("shopProductsGrid");
+const searchInput = document.getElementById("searchInput");
+const filterButtons = document.querySelectorAll(".filter-btn");
+const cartCount = document.getElementById("cartCount");
+
+let allProducts = JSON.parse(localStorage.getItem("products")) || [];
+let displayedProducts = [...allProducts];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
   window.location.href = "index.html";
 }
@@ -94,37 +98,56 @@ function renderCartItems() {
   cartSubtotal.textContent = "$" + subtotal.toFixed(2);
 }
 
+function updateCartCount() {
+  const userCart = cart.filter(item => {
+    return item.userEmail === currentUser.email;
+  });
+
+  const totalItems = userCart.reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
+
+  cartCount.textContent = totalItems;
+}
+
 
 // RENDER PRODUCTS
-function renderProducts(filter = "") {
-  productGrid.innerHTML = "";
+function renderProducts(products) {
+  shopProductsGrid.innerHTML = "";
 
-  const filtered = products.filter(product =>
-    product.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  if (filtered.length === 0) {
-    productGrid.innerHTML = `<p>No products found.</p>`;
+  if (products.length === 0) {
+    shopProductsGrid.innerHTML = `
+      <div class="empty-products">
+        <h3>No Products Found</h3>
+        <p>Try changing your search or category filter.</p>
+      </div>
+    `;
     return;
   }
 
-  filtered.forEach(product => {
-    productGrid.innerHTML += `
-      <div class="card product-card">
-        <img src="${product.image}" class="product-image" alt="${product.name}">
+  products.forEach(product => {
+    shopProductsGrid.innerHTML += `
+      <div class="shop-product-card">
+        <img src="${product.image}" class="shop-product-image" alt="${product.name}">
 
-        <div class="product-info">
-          <h3 class="product-name">${product.name}</h3>
-          <p class="product-price">$${product.price}</p>
-          <p class="product-stock">Stock: ${product.stock}</p>
+        <div class="shop-product-content">
+          <div class="shop-product-category">
+            ${product.category}
+          </div>
 
-          <button 
-            class="btn btn-primary"
-            onclick="addToCart(${product.id})"
-            ${product.stock <= 0 ? "disabled" : ""}
-          >
-            ${product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
-          </button>
+          <h3>${product.name}</h3>
+
+          <p class="shop-product-description">
+            ${product.description || "Premium quality product with modern design and excellent value."}
+          </p>
+
+          <div class="shop-product-footer">
+            <div class="shop-product-price">$${Number(product.price).toFixed(2)}</div>
+
+            <button class="add-cart-btn" onclick="addToCart('${product.id}')">
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -132,29 +155,33 @@ function renderProducts(filter = "") {
 }
 
 // ADD TO CART
-function addToCart(product) {
-  const existingProduct = cart.find(item => {
-    return item.id === product.id;
+function addToCart(productId) {
+  const selectedProduct = allProducts.find(product => {
+    return String(product.id) === String(productId);
   });
 
-  if (existingProduct) {
-    existingProduct.quantity += 1;
+  if (!selectedProduct) return;
+
+  const existingItem = cart.find(item => {
+    return item.id === selectedProduct.id && item.userEmail === currentUser.email;
+  });
+
+  if (existingItem) {
+    existingItem.quantity += 1;
   } else {
     cart.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
+      id: selectedProduct.id,
+      name: selectedProduct.name,
+      price: selectedProduct.price,
+      image: selectedProduct.image,
       quantity: 1,
       userEmail: currentUser.email
     });
   }
 
-  saveCart();
-  renderCartItems();
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
 }
-
-// RENDER CART
 
 // CHANGE QUANTITY
 function increaseQuantity(index) {
@@ -171,6 +198,39 @@ function decreaseQuantity(index) {
 
   syncUserCart();
 }
+
+
+searchInput.addEventListener("input", () => {
+  const searchValue = searchInput.value.toLowerCase().trim();
+
+  displayedProducts = allProducts.filter(product => {
+    const nameMatch = product.name.toLowerCase().includes(searchValue);
+    const categoryMatch = product.category.toLowerCase().includes(searchValue);
+
+    return nameMatch || categoryMatch;
+  });
+
+  renderProducts(displayedProducts);
+});
+
+filterButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelector(".filter-btn.active").classList.remove("active");
+    button.classList.add("active");
+
+    const category = button.dataset.category;
+
+    if (category === "all") {
+      displayedProducts = [...allProducts];
+    } else {
+      displayedProducts = allProducts.filter(product => {
+        return product.category === category;
+      });
+    }
+
+    renderProducts(displayedProducts);
+  });
+});
 
 function removeCartItem(index) {
   cart.splice(index, 1);
@@ -272,7 +332,45 @@ window.addEventListener("DOMContentLoaded", () => {
 function logoutUser() {
   localStorage.removeItem("currentUser");
   localStorage.removeItem("isLoggedIn");
-  localStorage.removeItem("adminLoggedIn");
-
   window.location.href = "index.html";
 }
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (!localStorage.getItem("products")) {
+    const sampleProducts = [
+      {
+        id: "1",
+        name: "Modern Chair",
+        category: "Home",
+        price: 129,
+        image: "https://images.unsplash.com/photo-1582582429416-47c1d3f3d9db?auto=format&fit=crop&w=800&q=80",
+        description: "Comfortable premium chair with modern style."
+      },
+      {
+        id: "2",
+        name: "Luxury Watch",
+        category: "Fashion",
+        price: 249,
+        image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=800&q=80",
+        description: "Elegant watch with premium metal finish."
+      },
+      {
+        id: "3",
+        name: "Wireless Headphones",
+        category: "Electronics",
+        price: 189,
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=80",
+        description: "High quality sound with wireless connectivity."
+      }
+    ];
+
+    localStorage.setItem("products", JSON.stringify(sampleProducts));
+  }
+
+  allProducts = JSON.parse(localStorage.getItem("products")) || [];
+  displayedProducts = [...allProducts];
+
+  renderProducts(displayedProducts);
+  updateCartCount();
+});
