@@ -1,6 +1,23 @@
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
+
+const userGreeting = document.getElementById("userGreeting");
+const userEmail = document.getElementById("userEmail");
+const cartCount = document.getElementById("cartCount");
+
+userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
+userEmail.textContent = currentUser.email;
+
+
+
+
+
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   updateCartCount();
@@ -140,39 +157,6 @@ function addToCart(product) {
 }
 
 // RENDER CART
-function renderCart() {
-  cartItems.innerHTML = "";
-
-  let total = 0;
-  let count = 0;
-
-  cart.forEach(item => {
-    total += item.price * item.qty;
-    count += item.qty;
-
-    cartItems.innerHTML += `
-      <div class="cart-item">
-        <img src="${item.image}" alt="${item.name}">
-
-        <div class="cart-item-info">
-          <h4>${item.name}</h4>
-          <p>$${item.price}</p>
-
-          <div class="qty-controls">
-            <button onclick="changeQty(${item.id}, -1)">−</button>
-            <span>${item.qty}</span>
-            <button onclick="changeQty(${item.id}, 1)">+</button>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  cartTotal.innerText = total.toFixed(2);
-  cartCount.innerText = count;
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
 
 // CHANGE QUANTITY
 function increaseQuantity(index) {
@@ -293,19 +277,6 @@ window.addEventListener("DOMContentLoaded", () => {
   setActiveSidebarLink();
 });
 
-
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
-  window.location.href = "login.html";
-}
-
-const userGreeting = document.getElementById("userGreeting");
-const userEmail = document.getElementById("userEmail");
-const cartCount = document.getElementById("cartCount");
-
-userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
-userEmail.textContent = currentUser.email;
 
 
 function logoutUser() {
