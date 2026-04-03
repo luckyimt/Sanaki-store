@@ -33,140 +33,48 @@
 </nav>
 
 <div class="main-content">
+<section class="customer-orders-page">
 
-<section class="orders-page">
-  <div class="orders-container">
-
-    <div class="orders-header">
-      <h1 class="orders-title">My Orders</h1>
-      <p class="orders-subtitle">
-        Track your recent purchases, payment status, and delivery progress.
-      </p>
+  <div class="orders-header">
+    <div>
+      <h1>My Orders</h1>
+      <p>Track your purchases, delivery progress, and payment status.</p>
     </div>
 
-    <div class="orders-grid" id="ordersGrid">
+    <div class="orders-search-box">
+      <input type="text" id="orderSearchInput" placeholder="Search by order ID or product name">
+    </div>
+  </div>
 
-      <!-- ORDER CARD -->
-      <div class="order-card">
+  <div class="orders-summary-grid">
 
-        <div class="order-top">
-          <div>
-            <h2 class="order-id">ORD-20260402-001</h2>
-            <p class="order-date">Placed on April 2, 2026</p>
-          </div>
+    <div class="summary-card">
+      <span>Total Orders</span>
+      <h2 id="totalOrdersCount">0</h2>
+    </div>
 
-          <div class="order-status status-shipped">
-            Shipped
-          </div>
-        </div>
+    <div class="summary-card">
+      <span>Pending Orders</span>
+      <h2 id="pendingOrdersCount">0</h2>
+    </div>
 
-        <div class="order-items">
+    <div class="summary-card">
+      <span>Delivered Orders</span>
+      <h2 id="deliveredOrdersCount">0</h2>
+    </div>
 
-          <div class="order-item">
-            <img src="https://via.placeholder.com/80" alt="Product">
-
-            <div class="order-item-details">
-              <div class="order-item-name">Wireless Headphones</div>
-              <div class="order-item-meta">Qty: 1 • $120</div>
-            </div>
-          </div>
-
-          <div class="order-item">
-            <img src="https://via.placeholder.com/80" alt="Product">
-
-            <div class="order-item-details">
-              <div class="order-item-name">Smart Watch</div>
-              <div class="order-item-meta">Qty: 2 • $85</div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="order-footer">
-          <div class="order-total-box">
-            <div class="order-total-label">Total Amount</div>
-            <div class="order-total">$290</div>
-          </div>
-
-          <div class="order-progress">
-            <div class="progress-step active">
-              <div class="progress-dot"></div>
-              <span>Pending</span>
-            </div>
-
-            <div class="progress-step active">
-              <div class="progress-dot"></div>
-              <span>Paid</span>
-            </div>
-
-            <div class="progress-step active">
-              <div class="progress-dot"></div>
-              <span>Shipped</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- SECOND ORDER -->
-      <div class="order-card">
-
-        <div class="order-top">
-          <div>
-            <h2 class="order-id">ORD-20260401-002</h2>
-            <p class="order-date">Placed on April 1, 2026</p>
-          </div>
-
-          <div class="order-status status-paid">
-            Paid
-          </div>
-        </div>
-
-        <div class="order-items">
-
-          <div class="order-item">
-            <img src="https://via.placeholder.com/80" alt="Product">
-
-            <div class="order-item-details">
-              <div class="order-item-name">Gaming Keyboard</div>
-              <div class="order-item-meta">Qty: 1 • $95</div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="order-footer">
-          <div class="order-total-box">
-            <div class="order-total-label">Total Amount</div>
-            <div class="order-total">$95</div>
-          </div>
-
-          <div class="order-progress">
-            <div class="progress-step active">
-              <div class="progress-dot"></div>
-              <span>Pending</span>
-            </div>
-
-            <div class="progress-step active">
-              <div class="progress-dot"></div>
-              <span>Paid</span>
-            </div>
-
-            <div class="progress-step">
-              <div class="progress-dot"></div>
-              <span>Shipped</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
+    <div class="summary-card">
+      <span>Total Spent</span>
+      <h2 id="totalSpentAmount">$0</h2>
     </div>
 
   </div>
-</section>
-</div
 
+  <div id="customerOrdersGrid" class="customer-orders-grid"></div>
+
+</section>
+
+</div>
   <script src="orders.js"></script>
 </body>
 </html>
