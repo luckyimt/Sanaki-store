@@ -14,8 +14,11 @@ const cartCount = document.getElementById("cartCount");
 userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
 userEmail.textContent = currentUser.email;
 
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-
+if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
+  window.location.href = "login.html";
+}
 
 
 function saveCart() {
@@ -256,6 +259,8 @@ renderCart();
 
 
 
+
+
 //--nav
 
 function setActiveSidebarLink() {
@@ -284,5 +289,5 @@ function logoutUser() {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("adminLoggedIn");
 
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
