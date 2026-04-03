@@ -1,25 +1,21 @@
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+const userGreeting = document.getElementById("userGreeting");
+const userEmail = document.getElementById("userEmail");
+userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
+userEmail.textContent = currentUser.email;
+const cartCount = document.getElementById("cartCount");
+const productGrid = document.getElementById("productGrid");
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
+const searchInput = document.getElementById("searchInput");
+
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
   window.location.href = "index.html";
 }
-
-const userGreeting = document.getElementById("userGreeting");
-const userEmail = document.getElementById("userEmail");
-const cartCount = document.getElementById("cartCount");
-
-userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
-userEmail.textContent = currentUser.email;
-
-const productGrid = document.getElementById("productGrid");
-const cartItems = document.getElementById("cartItems");
-const cartCount = document.getElementById("cartCount");
-const cartTotal = document.getElementById("cartTotal");
-const searchInput = document.getElementById("searchInput");
-
 
 renderProducts();
 renderCart();
