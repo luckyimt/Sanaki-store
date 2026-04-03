@@ -7,6 +7,46 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
+  <nav class="admin-sidebar">
+    <ul class="sidebar-menu">
+      <li>
+        <a href="admin-dashboard.html" class="sidebar-link active">
+<span>dashboard</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="admin-products.html" class="sidebar-link">
+<span>products</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="admin-orders.html" class="sidebar-link">
+        </a>
+      </li>
+
+      <li>
+        <a href="admin-customers.html" class="sidebar-link">
+        </a>
+      </li>
+      <li>
+        <a href="shop.html" class="sidebar-link"><span>shop</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="sidebar-bottom">
+    <button class="logout-btn" onclick="logoutAdmin()">
+      <span>logout</span>
+    </button>
+  </div>
+
+</nav>
+
+<div class="main-content">
 
 <section class="admin-orders-page">
 
@@ -51,6 +91,7 @@
   <div class="admin-orders-list" id="adminOrdersList"></div>
 
 </section>
+</div>
 
 <div id="adminOrders"></div>
 
