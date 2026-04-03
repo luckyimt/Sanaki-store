@@ -83,3 +83,23 @@ const defaultUsers = [
 if (!localStorage.getItem("users")) {
   localStorage.setItem("users", JSON.stringify(defaultUsers));
 }
+
+//-admin nav
+function setActiveSidebarLink() {
+  const links = document.querySelectorAll(".sidebar-link");
+  const currentPage = window.location.pathname.split("/").pop();
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+
+    if (href === currentPage) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  setActiveSidebarLink();
+});
