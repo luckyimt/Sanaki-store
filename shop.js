@@ -131,16 +131,9 @@ function renderProducts(products) {
         <img src="${product.image}" class="shop-product-image" alt="${product.name}">
 
         <div class="shop-product-content">
-          <div class="shop-product-category">
-            ${product.category}
-          </div>
+
 
           <h3>${product.name}</h3>
-
-          <p class="shop-product-description">
-            ${product.description || "Premium quality product with modern design and excellent value."}
-          </p>
-
           <div class="shop-product-footer">
             <div class="shop-product-price">$${Number(product.price).toFixed(2)}</div>
 
@@ -170,7 +163,6 @@ function addToCart(productId) {
     existingItem.quantity += 1;
   } else {
     cart.push({
-      id: selectedProduct.id,
       name: selectedProduct.name,
       price: selectedProduct.price,
       image: selectedProduct.image,
