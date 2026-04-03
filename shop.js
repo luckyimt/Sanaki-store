@@ -4,7 +4,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 }
 
 const userGreeting = document.getElementById("userGreeting");
