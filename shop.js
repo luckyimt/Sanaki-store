@@ -21,14 +21,6 @@ const cartTotal = document.getElementById("cartTotal");
 const searchInput = document.getElementById("searchInput");
 
 
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-
-
-if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
-  window.location.href = "login.html";
-}
-
 renderProducts();
 renderCart();
 
