@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section class="login-page">
+
+  <div class="login-card">
+
+    <div class="login-left">
+      <div class="brand-badge">My Shop</div>
+      <h1>Welcome Back</h1>
+      <p>Login to access your orders, saved cart, and account details.</p>
+
+      <div class="login-features">
+        <div class="feature-item">
+          <span>✓</span>
+          <p>Secure account login</p>
+        </div>
+
+        <div class="feature-item">
+          <span>✓</span>
+          <p>Track your orders instantly</p>
+        </div>
+
+        <div class="feature-item">
+          <span>✓</span>
+          <p>Manage cart and wishlist</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-right">
+      <form id="loginForm" class="login-form">
+
+        <h2>Account Login</h2>
+
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            <button type="button" id="togglePasswordBtn">Show</button>
+          </div>
+        </div>
+
+        <div class="login-options">
+          <label class="remember-box">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember me</span>
+          </label>
+
+          <a href="#">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+
+        <div id="loginMessage" class="login-message"></div>
+
+        <div class="login-footer">
+          Don’t have an account?
+          <a href="register.html">Create Account</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</section>
+
+
+<script src="login.js"></script>
+</body>
+</html>
