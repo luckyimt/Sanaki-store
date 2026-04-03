@@ -14,7 +14,16 @@ const cartCount = document.getElementById("cartCount");
 userGreeting.textContent = `Welcome, ${currentUser.fullName}`;
 userEmail.textContent = currentUser.email;
 
+const productGrid = document.getElementById("productGrid");
+const cartItems = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
+const searchInput = document.getElementById("searchInput");
+
+
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+
 
 if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
   window.location.href = "login.html";
@@ -94,11 +103,6 @@ function renderCartItems() {
   cartSubtotal.textContent = "$" + subtotal.toFixed(2);
 }
 
-const productGrid = document.getElementById("productGrid");
-const cartItems = document.getElementById("cartItems");
-const cartCount = document.getElementById("cartCount");
-const cartTotal = document.getElementById("cartTotal");
-const searchInput = document.getElementById("searchInput");
 
 // RENDER PRODUCTS
 function renderProducts(filter = "") {
