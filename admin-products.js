@@ -20,6 +20,28 @@ document.getElementById("pImage").addEventListener("change", function(e) {
   reader.readAsDataURL(file);
 });
 
+//-admin nav
+function setActiveSidebarLink() {
+  const links = document.querySelectorAll(".sidebar-link");
+  const currentPage = window.location.pathname.split("/").pop();
+
+  links.forEach(link => {
+    const href = link.getAttribute("href");
+
+    if (href === currentPage) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  setActiveSidebarLink();
+});
+
+
+
 // ADD PRODUCT
 function addProduct() {
   const product = {
