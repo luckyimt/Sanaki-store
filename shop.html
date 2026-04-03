@@ -27,9 +27,6 @@
   <div class="shop-topbar">
 
   <div class="shop-user-box">
-    <div class="shop-user-avatar">
-      ${currentUser.fullName.charAt(0)}
-    </div>
 
     <div class="shop-user-info">
       <h4 id="userGreeting"></h4>
@@ -56,7 +53,70 @@
 
   <!-- SHOP GRID -->
   <main class="container">
-    <div id="productGrid" class="product-grid"></div>
+<section class="shop-page">
+
+  <aside class="shop-sidebar">
+
+    <div class="shop-brand">
+      <h2>My Shop</h2>
+      <p>Premium Collection Store</p>
+    </div>
+
+    <div class="shop-user-card">
+      <div class="shop-user-avatar" id="shopUserAvatar">U</div>
+
+      <div class="shop-user-info">
+        <h4 id="userGreeting">Welcome</h4>
+        <p id="userEmail">email@example.com</p>
+      </div>
+    </div>
+
+    <nav class="shop-menu">
+      <a href="shop.html" class="active">Shop</a>
+      <a href="orders.html">Order</a>
+    </nav>
+
+    <button class="shop-logout-btn" onclick="logoutUser()">
+      Logout
+    </button>
+
+  </aside>
+
+  <main class="shop-content">
+
+    <div class="shop-header">
+      <div>
+        <h1>Explore Products</h1>
+        <p>Browse premium items and add them to your personal cart.</p>
+      </div>
+
+      <div class="shop-header-actions">
+
+        <div class="shop-search-box">
+          <input type="text" id="searchInput" placeholder="Search products...">
+        </div>
+
+        <div class="shop-cart-button" onclick="window.location.href='cart.html'">
+          <span>Cart</span>
+          <div class="shop-cart-count" id="cartCount">0</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="shop-filters">
+      <button class="filter-btn active" data-category="all">All</button>
+      <button class="filter-btn" data-category="Fashion">Fashion</button>
+      <button class="filter-btn" data-category="Electronics">Electronics</button>
+      <button class="filter-btn" data-category="Beauty">Beauty</button>
+      <button class="filter-btn" data-category="Home">Home</button>
+    </div>
+
+    <div id="shopProductsGrid" class="shop-products-grid"></div>
+
+  </main>
+
+</section>
   </main>
 
 
