@@ -29,6 +29,9 @@ if (!currentUser || localStorage.getItem("isLoggedIn") !== "true") {
   window.location.href = "login.html";
 }
 
+renderProducts();
+renderCart();
+
 
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
@@ -257,14 +260,6 @@ function checkout() {
   alert("Order placed successfully");
 }
 
-// INIT
-renderProducts();
-renderCart();
-
-
-
-
-
 //--nav
 
 function setActiveSidebarLink() {
@@ -285,8 +280,6 @@ function setActiveSidebarLink() {
 window.addEventListener("DOMContentLoaded", () => {
   setActiveSidebarLink();
 });
-
-
 
 function logoutUser() {
   localStorage.removeItem("currentUser");
