@@ -20,7 +20,7 @@
   --transition: 0.25s ease;
 }
 
-//-- orders pages
+
 .customer-orders-page {
   padding: 40px;
   background: #f8fafc;
@@ -268,7 +268,6 @@
 }
 
 
-//-admin nav
 .admin-sidebar {
   width: 280px;
   min-height: 100vh;
@@ -1026,7 +1025,7 @@ form input {
   display: none;
 }
 
-//-admin order
+
 .admin-orders-page {
   min-height: 100vh;
   background: #f4f7fb;
@@ -1312,7 +1311,8 @@ form input {
     width: 100%;
   }
 }
-//--shop
+
+
 .shop-header {
   background: #111827;
   border-bottom: 1px solid #1f2937;
@@ -1543,7 +1543,6 @@ form input {
 }
 
 
-//--orders
 /* ===== CLEAN ORDER PAGE REDESIGN ===== */
 
 .orders-page {
@@ -1997,7 +1996,6 @@ body {
 }
 
 
-//-shop
 
 body {
   margin: 0;
