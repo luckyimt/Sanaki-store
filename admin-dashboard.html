@@ -136,16 +136,7 @@
 </section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
-
 <script>
-
-if (localStorage.getItem("adminLoggedIn") !== "true") {
-  window.location.href = "admin-dashboard.html";
-}
-
 const orders = JSON.parse(localStorage.getItem("orders")) || [];
 const products = JSON.parse(localStorage.getItem("products")) || [];
 
@@ -257,9 +248,7 @@ new Chart(ctx, {
     }
   }
 });
-
 </script>
-
 <script>
 function logoutAdmin() {
   localStorage.removeItem("adminLoggedIn");
