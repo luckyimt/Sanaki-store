@@ -1,68 +1,72 @@
-const adminOrdersList = document.getElementById("adminOrdersList");
-const orderSearch = document.getElementById("orderSearch");
-const statusFilter = document.getElementById("statusFilter");
+const adminOrdersGrid = document.querySelector(".admin-orders-grid");
+const searchInput = document.querySelector(".admin-order-search");
+const statusFilter = document.querySelector(".admin-order-filter");
 
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-function updateDashboardStats(filteredOrders) {
+function updateStats(filteredOrders) {
   const totalOrders = filteredOrders.length;
   const pendingOrders = filteredOrders.filter(order => order.status === "Pending").length;
+  const shippedOrders = filteredOrders.filter(order => order.status === "Shipped").length;
 
-  const totalRevenue = filteredOrders.reduce((sum, order) => {
-    return sum + Number(order.total);
-  }, 0);
-
-  document.getElementById("totalOrders").textContent = totalOrders;
-  document.getElementById("pendingOrders").textContent = pendingOrders;
-  document.getElementById("totalRevenue").textContent = `$${totalRevenue}`;
+  document.querySelectorAll(".admin-stat-value")[0].textContent = totalOrders;
+  document.querySelectorAll(".admin-stat-value")[1].textContent = pendingOrders;
+  document.querySelectorAll(".admin-stat-value")[2].textContent = shippedOrders;
 }
 
-function getStatusClass(status) {
-  if (status === "Pending") return "status-pending";
-  if (status === "Paid") return "status-paid";
-  if (status === "Shipped") return "status-shipped";
-  if (status === "Delivered") return "status-delivered";
-  return "";
-}
-
-function renderOrders(filteredOrders = orders) {
-  adminOrdersList.innerHTML = "";
+function renderAdminOrders(filteredOrders = orders) {
+  adminOrdersGrid.innerHTML = "";
 
   if (filteredOrders.length === 0) {
-    adminOrdersList.innerHTML = `
-      <div class="empty-orders">
-        <h2>No Orders Found</h2>
-        <p>No orders match your current filters.</p>
+    adminOrdersGrid.innerHTML = `
+      <div class="admin-order-card">
+        <h2 class="admin-order-id">No Orders Found</h2>
+        <p class="admin-order-date">There are no matching orders available.</p>
       </div>
     `;
-    updateDashboardStats([]);
+    updateStats([]);
     return;
   }
 
-  filteredOrders.slice().reverse().forEach((order, index) => {
+  filteredOrders.reverse().forEach((order, index) => {
+    let statusClass = "";
+
+    if (order.status === "Pending") {
+      statusClass = "status-pending";
+    }
+
+    if (order.status === "Paid") {
+      statusClass = "status-paid";
+    }
+
+    if (order.status === "Shipped") {
+      statusClass = "status-shipped";
+    }
+
+    if (order.status === "Delivered") {
+      statusClass = "status-delivered";
+    }
+
     const itemsHTML = order.items.map(item => `
       <div class="admin-order-item">
         <img src="${item.image}" alt="${item.name}">
-        <div class="admin-order-item-details">
-          <div class="admin-order-item-name">${item.name}</div>
-          <div class="admin-order-item-info">
-            Qty: ${item.qty} • $${item.price}
-          </div>
+        <div class="admin-order-item-info">
+          <h4>${item.name}</h4>
+          <p>Qty: ${item.qty} • $${item.price}</p>
         </div>
       </div>
     `).join("");
 
-    adminOrdersList.innerHTML += `
+    adminOrdersGrid.innerHTML += `
       <div class="admin-order-card">
         <div class="admin-order-top">
           <div>
-            <div class="admin-order-id">${order.orderId}</div>
-            <div class="admin-order-meta">Customer: ${order.customerName || "Guest Customer"}</div>
-            <div class="admin-order-meta">Date: ${order.date}</div>
-            <div class="admin-order-meta">Items: ${order.items.length}</div>
+            <h2 class="admin-order-id">${order.orderId}</h2>
+            <p class="admin-order-customer">${order.customerName || "Guest Customer"}</p>
+            <p class="admin-order-date">${order.date}</p>
           </div>
 
-          <div class="admin-order-status ${getStatusClass(order.status)}">
+          <div class="admin-order-status ${statusClass}">
             ${order.status}
           </div>
         </div>
@@ -73,16 +77,16 @@ function renderOrders(filteredOrders = orders) {
 
         <div class="admin-order-footer">
           <div>
-            <div class="admin-order-total-label">Order Total</div>
-            <div class="admin-order-total">$${order.total}</div>
+            <span class="admin-order-total-label">Order Total</span>
+            <h3 class="admin-order-total">$${order.total}</h3>
           </div>
 
           <div class="admin-order-actions">
-            <button class="view-btn" onclick="viewOrderDetails(${index})">
-              View Details
+            <button class="admin-btn admin-btn-view" onclick="viewOrder(${index})">
+              View
             </button>
 
-            <select class="status-select" onchange="changeOrderStatus(${index}, this.value)">
+            <select class="admin-btn admin-btn-update" onchange="updateOrderStatus(${index}, this.value)">
               <option value="">Update Status</option>
               <option value="Pending">Pending</option>
               <option value="Paid">Paid</option>
@@ -95,40 +99,34 @@ function renderOrders(filteredOrders = orders) {
     `;
   });
 
-  updateDashboardStats(filteredOrders);
+  updateStats(filteredOrders);
 }
 
-function changeOrderStatus(index, newStatus) {
+function updateOrderStatus(index, newStatus) {
   if (!newStatus) return;
 
-  const reversedOrders = [...orders].reverse();
-  const selectedOrder = reversedOrders[index];
-  const originalIndex = orders.findIndex(order => order.orderId === selectedOrder.orderId);
+  orders[index].status = newStatus;
 
-  if (originalIndex !== -1) {
-    orders[originalIndex].status = newStatus;
-    localStorage.setItem("orders", JSON.stringify(orders));
-    renderOrders(getFilteredOrders());
-  }
+  localStorage.setItem("orders", JSON.stringify(orders));
+  renderAdminOrders(getFilteredOrders());
 }
 
-function viewOrderDetails(index) {
-  const reversedOrders = [...orders].reverse();
-  const order = reversedOrders[index];
+function viewOrder(index) {
+  const order = orders[index];
 
   alert(`
 Order ID: ${order.orderId}
 Customer: ${order.customerName || "Guest Customer"}
 Date: ${order.date}
 Status: ${order.status}
-Items: ${order.items.length}
 Total: $${order.total}
+Items: ${order.items.length}
   `);
 }
 
 function getFilteredOrders() {
-  const searchValue = orderSearch.value.toLowerCase();
-  const selectedStatus = statusFilter.value;
+  const searchValue = searchInput.value.toLowerCase();
+  const statusValue = statusFilter.value;
 
   return orders.filter(order => {
     const matchesSearch =
@@ -136,23 +134,18 @@ function getFilteredOrders() {
       (order.customerName || "").toLowerCase().includes(searchValue);
 
     const matchesStatus =
-      selectedStatus === "" || order.status === selectedStatus;
+      statusValue === "" || order.status === statusValue;
 
     return matchesSearch && matchesStatus;
   });
 }
 
-orderSearch.addEventListener("input", () => {
-  renderOrders(getFilteredOrders());
+searchInput.addEventListener("input", () => {
+  renderAdminOrders(getFilteredOrders());
 });
 
 statusFilter.addEventListener("change", () => {
-  renderOrders(getFilteredOrders());
+  renderAdminOrders(getFilteredOrders());
 });
 
-renderOrders();
-
-function logoutAdmin() {
-  localStorage.removeItem("adminLoggedIn");
-  window.location.href = "index.html";
-}
+renderAdminOrders();
