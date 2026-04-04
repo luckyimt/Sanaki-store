@@ -137,45 +137,53 @@ searchInput.addEventListener("input", e => {
 
 // CHECKOUT
 function checkout() {
+
   if (cart.length === 0) {
-    alert("Your cart is empty");
+    alert("Cart is empty");
     return;
   }
 
+  let products = JSON.parse(localStorage.getItem("products")) || [];
   let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-  const order = {
-    id: Date.now(),
-    orderId: "ORD-" + Date.now(),
-    items: [...cart],
-    total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
-    status: "Pending",
-    date: new Date().toLocaleString()
-  };
-
+  // 🔻 Deduct stock
   cart.forEach(cartItem => {
     const product = products.find(p => p.id === cartItem.id);
 
     if (product) {
       product.stock -= cartItem.qty;
+
+      if (product.stock < 0) {
+        alert("Not enough stock for " + product.name);
+        return;
+      }
     }
   });
 
-  orders.push(order);
-
-  localStorage.setItem("orders", JSON.stringify(orders));
+  // 💾 Save updated products
   localStorage.setItem("products", JSON.stringify(products));
 
+  // 📦 Create order
+  const order = {
+    orderId: "ORD-" + Date.now(),
+    items: cart,
+    total: cart.reduce((sum, i) => sum + i.price * i.qty, 0),
+    status: "Pending",
+    date: new Date().toLocaleString()
+  };
+
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  alert("Order placed!");
+
+  // 🧹 Clear cart
   cart = [];
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  renderProducts();
   renderCart();
-  toggleCart();
-
-  alert("Order placed successfully");
+  updateCart();
 }
-
 // INIT
 renderProducts();
 renderCart();
