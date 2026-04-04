@@ -73,3 +73,8 @@ function renderProducts() {
     `;
   });
 }
+
+function logoutAdmin() {
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "admin-login.html";
+}
