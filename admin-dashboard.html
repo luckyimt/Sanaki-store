@@ -136,6 +136,7 @@
 </section>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const orders = JSON.parse(localStorage.getItem("orders")) || [];
 const products = JSON.parse(localStorage.getItem("products")) || [];
@@ -249,6 +250,7 @@ new Chart(ctx, {
   }
 });
 </script>
+
 <script>
 function logoutAdmin() {
   localStorage.removeItem("adminLoggedIn");
