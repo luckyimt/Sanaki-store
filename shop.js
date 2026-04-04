@@ -1,19 +1,43 @@
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+const productGrid = document.getElementById("productGrid");
+const cartItems = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
+const searchInput = document.getElementById("searchInput");
+
 // RENDER PRODUCTS
-function renderShop() {
-  const shop = document.getElementById("shop");
-  shop.innerHTML = "";
+function renderProducts(filter = "") {
+  productGrid.innerHTML = "";
 
-  products.forEach(p => {
-    shop.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" width="100%">
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
+  const filtered = products.filter(product =>
+    product.name.toLowerCase().includes(filter.toLowerCase())
+  );
 
-        <button onclick="addToCart(${p.id})">Add to Cart</button>
+  if (filtered.length === 0) {
+    productGrid.innerHTML = `<p>No products found.</p>`;
+    return;
+  }
+
+  filtered.forEach(product => {
+    productGrid.innerHTML += `
+      <div class="card product-card">
+        <img src="${product.image}" class="product-image" alt="${product.name}">
+
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <p class="product-price">$${product.price}</p>
+          <p class="product-stock">Stock: ${product.stock}</p>
+
+          <button 
+            class="btn btn-primary"
+            onclick="addToCart(${product.id})"
+            ${product.stock <= 0 ? "disabled" : ""}
+          >
+            ${product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
+          </button>
+        </div>
       </div>
     `;
   });
@@ -23,78 +47,135 @@ function renderShop() {
 function addToCart(id) {
   const product = products.find(p => p.id === id);
 
-  const item = cart.find(c => c.id === id);
+  if (!product || product.stock <= 0) return;
 
-  if (item) {
-    item.qty++;
+  const existing = cart.find(item => item.id === id);
+
+  if (existing) {
+    if (existing.qty < product.stock) {
+      existing.qty++;
+    }
   } else {
-    cart.push({ ...product, qty: 1 });
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      qty: 1
+    });
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  updateCart();
-}
-
-// UPDATE CART UI
-function updateCart() {
-  document.getElementById("cartCount").innerText =
-    cart.reduce((sum, i) => sum + i.qty, 0);
-}
-
-// OPEN CART
-function openCart() {
-  document.getElementById("cartModal").style.display = "block";
   renderCart();
 }
 
 // RENDER CART
 function renderCart() {
-  const container = document.getElementById("cartItems");
-  container.innerHTML = "";
+  cartItems.innerHTML = "";
 
   let total = 0;
+  let count = 0;
 
   cart.forEach(item => {
     total += item.price * item.qty;
+    count += item.qty;
 
-    container.innerHTML += `
-      <div>
-        ${item.name} - $${item.price} x ${item.qty}
-        <button onclick="changeQty(${item.id}, 1)">+</button>
-        <button onclick="changeQty(${item.id}, -1)">-</button>
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}">
+
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <p>$${item.price}</p>
+
+          <div class="qty-controls">
+            <button onclick="changeQty(${item.id}, -1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="changeQty(${item.id}, 1)">+</button>
+          </div>
+        </div>
       </div>
     `;
   });
 
-  document.getElementById("total").innerText = total;
+  cartTotal.innerText = total.toFixed(2);
+  cartCount.innerText = count;
+
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-// CHANGE QTY
-function changeQty(id, delta) {
+// CHANGE QUANTITY
+function changeQty(id, change) {
+  const product = products.find(p => p.id === id);
   const item = cart.find(i => i.id === id);
 
-  item.qty += delta;
+  if (!item) return;
+
+  item.qty += change;
+
+  if (item.qty > product.stock) {
+    item.qty = product.stock;
+  }
 
   if (item.qty <= 0) {
     cart = cart.filter(i => i.id !== id);
   }
 
-  localStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
-  updateCart();
 }
 
-// CHECKOUT (SIMULATION)
+// TOGGLE CART
+function toggleCart() {
+  document.getElementById("cartSidebar").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
+// SEARCH
+searchInput.addEventListener("input", e => {
+  renderProducts(e.target.value);
+});
+
+// CHECKOUT
 function checkout() {
-  alert("Proceed to payment (PayPal next step)");
+  if (cart.length === 0) {
+    alert("Your cart is empty");
+    return;
+  }
+
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  const order = {
+    id: Date.now(),
+    orderId: "ORD-" + Date.now(),
+    items: [...cart],
+    total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
+    status: "Pending",
+    date: new Date().toLocaleString()
+  };
+
+  cart.forEach(cartItem => {
+    const product = products.find(p => p.id === cartItem.id);
+
+    if (product) {
+      product.stock -= cartItem.qty;
+    }
+  });
+
+  orders.push(order);
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.setItem("products", JSON.stringify(products));
 
   cart = [];
   localStorage.setItem("cart", JSON.stringify(cart));
 
+  renderProducts();
   renderCart();
-  updateCart();
+  toggleCart();
+
+  alert("Order placed successfully");
 }
 
 // INIT
-renderShop();
-updateCart();
+renderProducts();
+renderCart();
