@@ -43,3 +43,19 @@ function deleteProduct(id) {
 }
 
 renderProducts();
+
+
+//STOCK UPDATE
+function updateStock(id, amount) {
+  let products = JSON.parse(localStorage.getItem("products")) || [];
+
+  products = products.map(p => {
+    if (p.id === id) {
+      p.stock += amount;
+    }
+    return p;
+  });
+
+  localStorage.setItem("products", JSON.stringify(products));
+  renderProducts();
+}
