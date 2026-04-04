@@ -49,51 +49,27 @@ function addProduct() {
   renderProducts();
 }
 
-// DISPLAY PRODUCTS
 function renderProducts() {
   const container = document.getElementById("productList");
   container.innerHTML = "";
 
   products.forEach(p => {
     container.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" width="100%">
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
-        <p>Stock: ${p.stock}</p>
+      <div class="card product-card">
+        <img src="${p.image}" alt="${p.name}">
+        
+        <div class="mt-2">
+          <h3>${p.name}</h3>
+          <p class="price">$${p.price}</p>
+          <p>Stock: ${p.stock}</p>
+        </div>
 
-        <button onclick="deleteProduct(${p.id})">Delete</button>
+        <div class="flex mt-2">
+          <button class="btn btn-success" onclick="updateStock(${p.id}, 1)">+ Stock</button>
+          <button class="btn btn-outline" onclick="updateStock(${p.id}, -1)">- Stock</button>
+          <button class="btn btn-danger" onclick="deleteProduct(${p.id})">Delete</button>
+        </div>
       </div>
     `;
   });
 }
-
-// DELETE
-function deleteProduct(id) {
-  products = products.filter(p => p.id !== id);
-  localStorage.setItem("products", JSON.stringify(products));
-  renderProducts();
-}
-
-renderProducts();
-
-
-
-//--stock mng
-
-function updateStock(id, amount) {
-  let products = JSON.parse(localStorage.getItem("products")) || [];
-
-  products = products.map(p => {
-    if (p.id === id) {
-      p.stock += amount;
-    }
-    return p;
-  });
-
-  localStorage.setItem("products", JSON.stringify(products));
-  renderProducts();
-}
-
-
-
