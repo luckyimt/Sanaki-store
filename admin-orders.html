@@ -47,34 +47,34 @@
 
   <div class="admin-orders-header">
     <div>
-      <h1 class="admin-orders-title">Orders Dashboard</h1>
+      <h1 class="admin-orders-title">Order Management</h1>
       <p class="admin-orders-subtitle">
-        Monitor customer purchases, shipping progress, payment states, and stock updates.
+        Manage customer orders, payment status, shipping updates, and tracking.
       </p>
     </div>
 
-    <div class="admin-orders-summary">
-      <div class="summary-card">
-        <span>Total Orders</span>
-        <h2 id="totalOrders">0</h2>
+    <div class="admin-orders-stats">
+      <div class="admin-stat-card">
+        <span class="admin-stat-label">Total Orders</span>
+        <h2 class="admin-stat-value">128</h2>
       </div>
 
-      <div class="summary-card">
-        <span>Pending</span>
-        <h2 id="pendingOrders">0</h2>
+      <div class="admin-stat-card">
+        <span class="admin-stat-label">Pending</span>
+        <h2 class="admin-stat-value">18</h2>
       </div>
 
-      <div class="summary-card">
-        <span>Revenue</span>
-        <h2 id="totalRevenue">$0</h2>
+      <div class="admin-stat-card">
+        <span class="admin-stat-label">Shipped</span>
+        <h2 class="admin-stat-value">74</h2>
       </div>
     </div>
   </div>
 
-  <div class="admin-orders-toolbar">
-    <input type="text" id="orderSearch" placeholder="Search order ID or customer name">
+  <div class="admin-order-toolbar">
+    <input type="text" class="admin-order-search" placeholder="Search order ID or customer name">
 
-    <select id="statusFilter">
+    <select class="admin-order-filter">
       <option value="">All Status</option>
       <option value="Pending">Pending</option>
       <option value="Paid">Paid</option>
@@ -83,7 +83,102 @@
     </select>
   </div>
 
-  <div class="admin-orders-list" id="adminOrdersList"></div>
+  <div class="admin-orders-grid">
+
+    <!-- ORDER CARD -->
+    <div class="admin-order-card">
+
+      <div class="admin-order-top">
+        <div>
+          <h2 class="admin-order-id">ORD-20260402-001</h2>
+          <p class="admin-order-customer">Michael Johnson</p>
+          <p class="admin-order-date">Placed on April 2, 2026</p>
+        </div>
+
+        <div class="admin-order-status status-shipped">
+          Shipped
+        </div>
+      </div>
+
+      <div class="admin-order-items">
+
+        <div class="admin-order-item">
+          <img src="https://via.placeholder.com/70" alt="Product">
+
+          <div class="admin-order-item-info">
+            <h4>Wireless Headphones</h4>
+            <p>Qty: 1 • $120</p>
+          </div>
+        </div>
+
+        <div class="admin-order-item">
+          <img src="https://via.placeholder.com/70" alt="Product">
+
+          <div class="admin-order-item-info">
+            <h4>Smart Watch</h4>
+            <p>Qty: 2 • $85</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="admin-order-footer">
+        <div>
+          <span class="admin-order-total-label">Order Total</span>
+          <h3 class="admin-order-total">$290</h3>
+        </div>
+
+        <div class="admin-order-actions">
+          <button class="admin-btn admin-btn-view">View</button>
+          <button class="admin-btn admin-btn-update">Update Status</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECOND ORDER -->
+    <div class="admin-order-card">
+
+      <div class="admin-order-top">
+        <div>
+          <h2 class="admin-order-id">ORD-20260401-002</h2>
+          <p class="admin-order-customer">Sarah Williams</p>
+          <p class="admin-order-date">Placed on April 1, 2026</p>
+        </div>
+
+        <div class="admin-order-status status-paid">
+          Paid
+        </div>
+      </div>
+
+      <div class="admin-order-items">
+
+        <div class="admin-order-item">
+          <img src="https://via.placeholder.com/70" alt="Product">
+
+          <div class="admin-order-item-info">
+            <h4>Gaming Keyboard</h4>
+            <p>Qty: 1 • $95</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="admin-order-footer">
+        <div>
+          <span class="admin-order-total-label">Order Total</span>
+          <h3 class="admin-order-total">$95</h3>
+        </div>
+
+        <div class="admin-order-actions">
+          <button class="admin-btn admin-btn-view">View</button>
+          <button class="admin-btn admin-btn-update">Update Status</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
