@@ -2,47 +2,9 @@
 <html>
 <head>
   <title>Admin Products</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-  
-  <nav class="admin-sidebar">
-    <ul class="sidebar-menu">
-      <li>
-        <a href="admin-dashboard.html" class="sidebar-link active">
-<span>dashboard</span>
-        </a>
-      </li>
-
-      <li>
-        <a href="admin-products.html" class="sidebar-link">
-<span>products</span>
-        </a>
-      </li>
-
-      <li>
-        <a href="admin-orders.html" class="sidebar-link">
-        <span>orders</span>
-        </a>
-      </li>
-
-      <li>
-        <a href="shop.html" class="sidebar-link"><span>shop</span>
-        </a>
-      </li>
-    </ul>
-
-
-  <div class="sidebar-bottom">
-  <button class="logout-btn" onclick="logoutAdmin()">
-  Logout
-</button>
-  </div>
-
-</nav>
-
-<div class="main-content">
-
 
 <h1>Product Manager</h1>
 
@@ -65,33 +27,8 @@
   <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
 </div>
 
-<div id="productList" class="grid grid-3"></div>
+<div id="productList"></div>
 
 <script src="admin-products.js"></script>
-
-  <script>
-    const imageInput = document.getElementById('pImage');
-    const previewContainer = document.getElementById('previewContainer');
-    const previewImage = document.getElementById('previewImage');
-    const fileName = document.getElementById('fileName');
-
-    imageInput.addEventListener('change', function () {
-      const file = this.files[0];
-
-      if (file) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-          previewImage.src = e.target.result;
-          previewContainer.style.display = 'block';
-          fileName.textContent = file.name;
-        };
-
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
-
-
 </body>
 </html>
