@@ -5,76 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Orders</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="orders.css">
 </head>
 <body>
-  
-   <nav class="admin-sidebar">
-    <ul class="sidebar-menu">
-      <li>
-        <a href="admin-dashboard.html" class="sidebar-link active">
-<span>dashboard</span>
-        </a>
-      </li>
 
-      <li>
-        <a href="index.html" class="sidebar-link"><span>shop</span>
-        </a>
-      </li>
-    </ul>
-    
+  <section class="orders-page">
+    <div class="orders-container">
 
-  <div class="sidebar-bottom">
-    <button class="logout-btn" onclick="logoutAdmin()">
-      <span>logout</span>
-    </button>
-  </div>
+      <!-- HEADER -->
+      <div class="orders-header">
+        <h1 class="orders-title">My Orders</h1>
+        <p class="orders-subtitle">
+          Track all your recent purchases, shipping progress, and order details in one place.
+        </p>
+      </div>
 
-</nav>
+      <!-- ORDER GRID -->
+      <div id="ordersGrid" class="orders-grid">
 
-<div class="main-content">
-<section class="customer-orders-page">
+        <!-- ORDER CARD -->
+        <div class="order-card">
 
-  <div class="orders-header">
-    <div>
-      <h1>My Orders</h1>
-      <p>Track your purchases, delivery progress, and payment status.</p>
+          <div class="order-top">
+            <div>
+              <h2 class="order-id">ORD-1743939201</h2>
+              <p class="order-date">Placed on April 2, 2026</p>
+            </div>
+
+            <div class="order-status status-shipped">
+              Shipped
+            </div>
+          </div>
+
+          <div class="order-items">
+
+            <div class="order-item">
+              <img src="https://via.placeholder.com/100" alt="Product">
+
+              <div class="order-item-details">
+                <div class="order-item-name">Premium Headphones</div>
+                <div class="order-item-meta">Qty: 1 • $120</div>
+              </div>
+            </div>
+
+            <div class="order-item">
+              <img src="https://via.placeholder.com/100" alt="Product">
+
+              <div class="order-item-details">
+                <div class="order-item-name">Smart Watch</div>
+                <div class="order-item-meta">Qty: 2 • $85</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="order-footer">
+            <div>
+              <div class="order-total-label">Total</div>
+              <div class="order-total">$290</div>
+            </div>
+          </div>
+
+          <div class="order-progress">
+            <div class="progress-step active">
+              <div class="progress-dot">✓</div>
+              <div class="progress-label">Pending</div>
+            </div>
+
+            <div class="progress-step active">
+              <div class="progress-dot">✓</div>
+              <div class="progress-label">Paid</div>
+            </div>
+
+            <div class="progress-step active">
+              <div class="progress-dot">✓</div>
+              <div class="progress-label">Shipped</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="orders-search-box">
-      <input type="text" id="orderSearchInput" placeholder="Search by order ID or product name">
-    </div>
-  </div>
-
-  <div class="orders-summary-grid">
-
-    <div class="summary-card">
-      <span>Total Orders</span>
-      <h2 id="totalOrdersCount">0</h2>
-    </div>
-
-    <div class="summary-card">
-      <span>Pending Orders</span>
-      <h2 id="pendingOrdersCount">0</h2>
-    </div>
-
-    <div class="summary-card">
-      <span>Delivered Orders</span>
-      <h2 id="deliveredOrdersCount">0</h2>
-    </div>
-
-    <div class="summary-card">
-      <span>Total Spent</span>
-      <h2 id="totalSpentAmount">$0</h2>
-    </div>
-
-  </div>
-
-  <div id="customerOrdersGrid" class="customer-orders-grid"></div>
-
-</section>
-
-</div>
   <script src="orders.js"></script>
 </body>
 </html>
