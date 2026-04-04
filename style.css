@@ -20,6 +20,47 @@
   --transition: 0.25s ease;
 }
 
+
+
+.upload-box {
+  width: 100%;
+  padding: 18px;
+  border: 2px dashed #475569;
+  border-radius: 12px;
+  background: #020617;
+  color: #cbd5e1;
+  text-align: center;
+  cursor: pointer;
+  display: block;
+  transition: 0.25s ease;
+  margin-top: 10px;
+}
+
+.upload-box:hover {
+  border-color: var(--primary);
+  background: #0f172a;
+}
+
+.image-preview {
+  width: 100%;
+  height: 220px;
+  margin-top: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #111827;
+  border: 1px solid #334155;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
 /* ===== RESET ===== */
 * {
   margin: 0;
