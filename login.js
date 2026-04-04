@@ -1,86 +1,35 @@
-const loginForm = document.getElementById("loginForm");
-const loginEmail = document.getElementById("loginEmail");
-const loginPassword = document.getElementById("loginPassword");
+const adminLoginForm = document.getElementById("adminLoginForm");
 const loginMessage = document.getElementById("loginMessage");
-const togglePasswordBtn = document.getElementById("togglePasswordBtn");
 
-togglePasswordBtn.addEventListener("click", () => {
-  if (loginPassword.type === "password") {
-    loginPassword.type = "text";
-    togglePasswordBtn.textContent = "Hide";
-  } else {
-    loginPassword.type = "password";
-    togglePasswordBtn.textContent = "Show";
-  }
-});
+const adminCredentials = {
+  email: "admin@example.com",
+  password: "admin123"
+};
 
-loginForm.addEventListener("submit", (e) => {
+adminLoginForm.addEventListener("submit", function(e) {
   e.preventDefault();
 
-  const email = loginEmail.value.trim().toLowerCase();
-  const password = loginPassword.value.trim();
+  const email = document.getElementById("adminEmail").value.trim();
+  const password = document.getElementById("adminPassword").value.trim();
 
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+  if (
+    email === adminCredentials.email &&
+    password === adminCredentials.password
+  ) {
+    localStorage.setItem("adminLoggedIn", "true");
 
-  const matchedUser = users.find(user => {
-    return user.email.toLowerCase() === email && user.password === password;
-  });
+    loginMessage.style.color = "#16a34a";
+    loginMessage.textContent = "Login successful. Redirecting...";
 
-  if (!matchedUser) {
-    loginMessage.textContent = "Invalid email or password.";
-    loginMessage.style.color = "#dc2626";
-    return;
-  }
-
-  localStorage.setItem("currentUser", JSON.stringify(matchedUser));
-  localStorage.setItem("isLoggedIn", "true");
-
-  if (document.getElementById("rememberMe").checked) {
-    localStorage.setItem("rememberedEmail", matchedUser.email);
-  } else {
-    localStorage.removeItem("rememberedEmail");
-  }
-
-  loginMessage.textContent = "Login successful. Redirecting...";
-  loginMessage.style.color = "#16a34a";
-
-  setTimeout(() => {
-    if (matchedUser.role === "admin") {
-      localStorage.setItem("adminLoggedIn", "true");
+    setTimeout(() => {
       window.location.href = "admin-dashboard.html";
-    } else {
-      window.location.href = "shop.html";
-    }
-  }, 1200);
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-  const rememberedEmail = localStorage.getItem("rememberedEmail");
-
-  if (rememberedEmail) {
-    loginEmail.value = rememberedEmail;
-    document.getElementById("rememberMe").checked = true;
+    }, 1200);
+  } else {
+    loginMessage.style.color = "#dc2626";
+    loginMessage.textContent = "Invalid email or password.";
   }
 });
 
-const defaultUsers = [
-  {
-    id: 1,
-    fullName: "Admin User",
-    email: "admin@shop.com",
-    password: "admin123",
-    role: "admin"
-  },
-  {
-    id: 2,
-    fullName: "Customer User",
-    email: "customer@shop.com",
-    password: "customer123",
-    role: "customer"
-  }
-];
-
-if (!localStorage.getItem("users")) {
-  localStorage.setItem("users", JSON.stringify(defaultUsers));
+if (localStorage.getItem("adminLoggedIn") === "true") {
+  window.location.href = "admin-dashboard.html";
 }
-
