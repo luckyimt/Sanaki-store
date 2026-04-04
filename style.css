@@ -532,7 +532,6 @@ form input {
   transform: translateY(-5px);
 }
 
-//--admin--
 .admin-login-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #eef2ff, #f8fafc, #e0f2fe);
@@ -764,9 +763,6 @@ form input {
 }
 
 
-
-
-//-admin dashboard
 .admin-dashboard-page {
   min-height: 100vh;
   background: #f4f7fb;
