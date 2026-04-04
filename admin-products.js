@@ -1,76 +1,45 @@
 let products = JSON.parse(localStorage.getItem("products")) || [];
-let selectedImage = "";
-
-// IMAGE PREVIEW + CONVERT TO BASE64
-document.getElementById("pImage").addEventListener("change", function(e) {
-  const file = e.target.files[0];
-
-  if (!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(event) {
-    selectedImage = event.target.result;
-
-    const preview = document.getElementById("previewImage");
-    preview.src = selectedImage;
-    preview.style.display = "block";
-  };
-
-  reader.readAsDataURL(file);
-});
 
 // ADD PRODUCT
 function addProduct() {
   const product = {
     id: Date.now(),
-    name: document.getElementById("pName").value.trim(),
+    name: document.getElementById("pName").value,
     price: Number(document.getElementById("pPrice").value),
-    stock: Number(document.getElementById("pStock").value),
-    image: selectedImage
+    image: document.getElementById("pImage").value,
+    stock: Number(document.getElementById("pStock").value)
   };
-
-  if (!product.name || !product.price || !product.stock || !product.image) {
-    alert("Please fill all product fields");
-    return;
-  }
 
   products.push(product);
   localStorage.setItem("products", JSON.stringify(products));
 
-  document.getElementById("pName").value = "";
-  document.getElementById("pPrice").value = "";
-  document.getElementById("pStock").value = "";
-  document.getElementById("pImage").value = "";
-  document.getElementById("previewImage").style.display = "none";
-
-  selectedImage = "";
-
   renderProducts();
 }
 
-
+// DISPLAY PRODUCTS
 function renderProducts() {
   const container = document.getElementById("productList");
   container.innerHTML = "";
 
   products.forEach(p => {
     container.innerHTML += `
-      <div class="card product-card">
-        <img src="${p.image}" alt="${p.name}">
-        
-        <div class="mt-2">
-          <h3>${p.name}</h3>
-          <p class="price">$${p.price}</p>
-          <p>Stock: ${p.stock}</p>
-        </div>
+      <div class="card">
+        <img src="${p.image}" width="100%">
+        <h3>${p.name}</h3>
+        <p>$${p.price}</p>
+        <p>Stock: ${p.stock}</p>
 
-        <div class="flex mt-2">
-          <button class="btn btn-success" onclick="updateStock(${p.id}, 1)">+ Stock</button>
-          <button class="btn btn-outline" onclick="updateStock(${p.id}, -1)">- Stock</button>
-          <button class="btn btn-danger" onclick="deleteProduct(${p.id})">Delete</button>
-        </div>
+        <button onclick="deleteProduct(${p.id})">Delete</button>
       </div>
     `;
   });
 }
+
+// DELETE
+function deleteProduct(id) {
+  products = products.filter(p => p.id !== id);
+  localStorage.setItem("products", JSON.stringify(products));
+  renderProducts();
+}
+
+renderProducts();
