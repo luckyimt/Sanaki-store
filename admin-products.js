@@ -27,8 +27,9 @@ function renderProducts() {
         <img src="${p.image}" width="100%">
         <h3>${p.name}</h3>
         <p>$${p.price}</p>
+        <button onclick="updateStock(${p.id}, -1)">- Stock</button>
         <p>Stock: ${p.stock}</p>
-
+        <button onclick="updateStock(${p.id}, 1)">+ Stock</button>
         <button onclick="deleteProduct(${p.id})">Delete</button>
       </div>
     `;
