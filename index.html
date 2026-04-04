@@ -1,72 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Shop</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<section class="login-page">
+<section class="admin-login-page">
 
-  <div class="login-card">
+  <div class="admin-login-wrapper">
 
-    <div class="login-left">
-      <div class="brand-badge">My Shop</div>
-      <h1>Welcome Back</h1>
-      <p>Login to access your orders, saved cart, and account details.</p>
+    <div class="admin-login-left">
+      <div class="login-brand-badge">Admin Panel</div>
 
-      <div class="login-features">
-        <div class="feature-item">
-          <span>✓</span>
-          <p>Secure account login</p>
+      <h1 class="login-title">
+        Welcome Back
+      </h1>
+
+      <p class="login-subtitle">
+        Sign in to manage products, orders, analytics, stock levels, and customer activity.
+      </p>
+
+      <div class="login-feature-list">
+        <div class="login-feature-item">
+          <div class="feature-icon">📦</div>
+          <div>
+            <h4>Product Control</h4>
+            <p>Add, edit, remove, and organize products.</p>
+          </div>
         </div>
 
-        <div class="feature-item">
-          <span>✓</span>
-          <p>Track your orders instantly</p>
+        <div class="login-feature-item">
+          <div class="feature-icon">📊</div>
+          <div>
+            <h4>Analytics Dashboard</h4>
+            <p>Track revenue, orders, and monthly performance.</p>
+          </div>
         </div>
 
-        <div class="feature-item">
-          <span>✓</span>
-          <p>Manage cart and wishlist</p>
+        <div class="login-feature-item">
+          <div class="feature-icon">🚚</div>
+          <div>
+            <h4>Order Tracking</h4>
+            <p>Manage payment status, shipping, and delivery updates.</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="login-right">
-      <form id="loginForm" class="login-form">
+    <div class="admin-login-right">
+      <form class="admin-login-form" id="adminLoginForm">
 
-        <h2>Account Login</h2>
+        <div class="login-form-header">
+          <h2>Admin Sign In</h2>
+          <p>Enter your credentials to access the dashboard</p>
+        </div>
 
         <div class="input-group">
           <label>Email Address</label>
-          <input type="email" id="loginEmail" placeholder="Enter your email" required>
+          <input type="email" id="adminEmail" placeholder="admin@example.com" required>
         </div>
 
         <div class="input-group">
           <label>Password</label>
-          <div class="password-wrapper">
-            <input type="password" id="loginPassword" placeholder="Enter your password" required>
-            <button type="button" id="togglePasswordBtn">Show</button>
-          </div>
+          <input type="password" id="adminPassword" placeholder="Enter password" required>
         </div>
 
         <div class="login-options">
           <label class="remember-box">
-            <input type="checkbox" id="rememberMe">
+            <input type="checkbox">
             <span>Remember me</span>
           </label>
 
-          <a href="#">Forgot Password?</a>
+          <a href="#" class="forgot-link">Forgot password?</a>
         </div>
 
-        <button type="submit" class="login-btn">Login</button>
+        <button type="submit" class="login-btn">
+          Sign In
+        </button>
 
-        <div id="loginMessage" class="login-message"></div>
-
-        <div class="login-footer">
-          Don’t have an account?
-          <a href="register.html">Create Account</a>
-        </div>
+        <div class="login-message" id="loginMessage"></div>
 
       </form>
     </div>
@@ -74,8 +79,3 @@
   </div>
 
 </section>
-
-
-<script src="login.js"></script>
-</body>
-</html>
