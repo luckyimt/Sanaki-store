@@ -2,32 +2,22 @@
 <html>
 <head>
   <title>Admin Products</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
 <h1>Product Manager</h1>
 
 <div class="form">
-  <input type="text" id="pName" class="input" placeholder="Product Name">
-  <input type="number" id="pPrice" class="input" placeholder="Price">
-  <input type="number" id="pStock" class="input" placeholder="Stock">
+  <input type="text" id="pName" placeholder="Product Name">
+  <input type="number" id="pPrice" placeholder="Price">
+  <input type="text" id="pImage" placeholder="Image URL">
+  <input type="number" id="pStock" placeholder="Stock">
 
-  <!-- Image Picker -->
-  <label class="upload-box">
-    <input type="file" id="pImage" accept="image/*" hidden>
-    <span>Select Product Image</span>
-  </label>
-
-  <!-- Preview -->
-  <div class="image-preview">
-    <img id="previewImage" src="" alt="">
-  </div>
-
-  <button class="btn btn-primary" onclick="addProduct()">Add Product</button>
+  <button onclick="addProduct()">Add Product</button>
 </div>
 
-<div id="productList" class="grid grid-3"></div>
+<div id="productList"></div>
 
 <script src="admin-products.js"></script>
 </body>
