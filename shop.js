@@ -1,19 +1,51 @@
+// shop.js
+
 let products = JSON.parse(localStorage.getItem("products")) || [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// RENDER PRODUCTS
+// RENDER SHOP PRODUCTS
 function renderShop() {
   const shop = document.getElementById("shop");
   shop.innerHTML = "";
 
-  products.forEach(p => {
-    shop.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" width="100%">
-        <h3>${p.name}</h3>
-        <p>$${p.price}</p>
+  if (products.length === 0) {
+    shop.innerHTML = `
+      <div class="card text-center">
+        <h3>No products available</h3>
+        <p class="mt-1">Add products from admin panel first.</p>
+      </div>
+    `;
+    return;
+  }
 
-        <button onclick="addToCart(${p.id})">Add to Cart</button>
+  products.forEach(product => {
+    const outOfStock = product.stock <= 0;
+
+    shop.innerHTML += `
+      <div class="card product-card">
+        
+        <div class="product-image-wrap">
+          <img src="${product.image}" alt="${product.name}">
+          ${
+            outOfStock
+              ? `<span class="badge badge-danger">Out of Stock</span>`
+              : `<span class="badge badge-success">In Stock</span>`
+          }
+        </div>
+
+        <div class="product-content">
+          <h3>${product.name}</h3>
+          <p class="price">$${product.price}</p>
+          <p class="stock-text">Available: ${product.stock}</p>
+
+          <button 
+            class="btn btn-primary w-full"
+            onclick="addToCart(${product.id})"
+            ${outOfStock ? "disabled" : ""}
+          >
+            ${outOfStock ? "Unavailable" : "Add to Cart"}
+          </button>
+        </div>
       </div>
     `;
   });
@@ -23,117 +55,138 @@ function renderShop() {
 function addToCart(id) {
   const product = products.find(p => p.id === id);
 
-  const item = cart.find(c => c.id === id);
+  if (!product || product.stock <= 0) {
+    alert("This product is out of stock");
+    return;
+  }
 
-  if (item) {
-    item.qty++;
+  const existingItem = cart.find(item => item.id === id);
+
+  if (existingItem) {
+    if (existingItem.qty >= product.stock) {
+      alert("You cannot add more than available stock");
+      return;
+    }
+
+    existingItem.qty++;
   } else {
-    cart.push({ ...product, qty: 1 });
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      qty: 1
+    });
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
-  updateCart();
+  updateCartCount();
 }
 
-// UPDATE CART UI
-function updateCart() {
-  document.getElementById("cartCount").innerText =
-    cart.reduce((sum, i) => sum + i.qty, 0);
+// UPDATE CART COUNT
+function updateCartCount() {
+  const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById("cartCount").innerText = totalItems;
 }
 
 // OPEN CART
 function openCart() {
-  document.getElementById("cartModal").style.display = "block";
+  document.getElementById("cartModal").style.display = "flex";
   renderCart();
+}
+
+// CLOSE CART
+function closeCart() {
+  document.getElementById("cartModal").style.display = "none";
 }
 
 // RENDER CART
 function renderCart() {
-  const container = document.getElementById("cartItems");
-  container.innerHTML = "";
+  const cartItems = document.getElementById("cartItems");
+  const totalText = document.getElementById("total");
+
+  cartItems.innerHTML = "";
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = `
+      <div class="empty-cart">
+        <p>Your cart is empty</p>
+      </div>
+    `;
+    totalText.innerText = "0";
+    return;
+  }
 
   let total = 0;
 
   cart.forEach(item => {
     total += item.price * item.qty;
 
-    container.innerHTML += `
-      <div>
-        ${item.name} - $${item.price} x ${item.qty}
-        <button onclick="changeQty(${item.id}, 1)">+</button>
-        <button onclick="changeQty(${item.id}, -1)">-</button>
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <p>$${item.price}</p>
+
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+          </div>
+        </div>
+
+        <div class="cart-item-total">
+          $${item.price * item.qty}
+        </div>
       </div>
     `;
   });
 
-  document.getElementById("total").innerText = total;
+  totalText.innerText = total.toFixed(2);
 }
 
 // CHANGE QTY
 function changeQty(id, delta) {
+  const product = products.find(p => p.id === id);
   const item = cart.find(i => i.id === id);
 
+  if (!item || !product) return;
+
   item.qty += delta;
+
+  if (item.qty > product.stock) {
+    item.qty = product.stock;
+    alert("Maximum stock reached");
+  }
 
   if (item.qty <= 0) {
     cart = cart.filter(i => i.id !== id);
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
+
   renderCart();
-  updateCart();
+  updateCartCount();
 }
 
-// CHECKOUT (SIMULATION)
+// CHECKOUT
 function checkout() {
-
   if (cart.length === 0) {
     alert("Cart is empty");
     return;
   }
 
-  let products = JSON.parse(localStorage.getItem("products")) || [];
-  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  alert("Proceed to checkout flow");
 
-  // 🔻 Deduct stock
-  cart.forEach(cartItem => {
-    const product = products.find(p => p.id === cartItem.id);
-
-    if (product) {
-      product.stock -= cartItem.qty;
-
-      if (product.stock < 0) {
-        alert("Not enough stock for " + product.name);
-        return;
-      }
-    }
-  });
-
-  // 💾 Save updated products
-  localStorage.setItem("products", JSON.stringify(products));
-
-  // 📦 Create order
-  const order = {
-    orderId: "ORD-" + Date.now(),
-    items: cart,
-    total: cart.reduce((sum, i) => sum + i.price * i.qty, 0),
-    status: "Pending",
-    date: new Date().toLocaleString()
-  };
-
-  orders.push(order);
-  localStorage.setItem("orders", JSON.stringify(orders));
-
-  alert("Order placed!");
-
-  // 🧹 Clear cart
   cart = [];
   localStorage.setItem("cart", JSON.stringify(cart));
 
   renderCart();
-  updateCart();
+  updateCartCount();
 }
 
-// INIT
+// INITIALIZE
 renderShop();
-updateCart();
+updateCartCount();
