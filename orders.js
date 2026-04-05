@@ -1,5 +1,19 @@
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
+const order = {
+  orderId: "ORD-" + Date.now(),
+  items: cart.map(item => ({
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    qty: item.qty,
+    image: item.image
+  })),
+  total: cart.reduce((sum, i) => sum + i.price * i.qty, 0),
+  status: "Pending",
+  date: new Date().toLocaleString()
+};
+
 function renderOrders() {
   const container = document.getElementById("ordersList");
   container.innerHTML = "";
