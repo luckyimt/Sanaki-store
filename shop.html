@@ -8,21 +8,30 @@
 
 <h1>Shop</h1>
 
-<div id="shop"></div>
+<div id="shop" class="grid grid-3"></div>
 
-<!-- FLOAT CART -->
-<div class="cartBox">
-  🛒 <span id="cartCount">0</span>
-  <button onclick="openCart()">View Cart</button>
+<div class="cartBox" onclick="openCart()">
+  <span>🛒</span>
+  <span id="cartCount">0</span>
 </div>
 
-<!-- CART MODAL -->
 <div id="cartModal" class="modal">
   <div class="modal-content">
-    <h2>Your Cart</h2>
+    
+    <div class="modal-header">
+      <h2>Your Cart</h2>
+      <button class="close-btn" onclick="closeCart()">×</button>
+    </div>
+
     <div id="cartItems"></div>
-    <h3>Total: $<span id="total"></span></h3>
-    <button onclick="checkout()">Checkout</button>
+
+    <div class="cart-footer">
+      <h3>Total: $<span id="total">0</span></h3>
+      <button class="btn btn-primary w-full" onclick="checkout()">
+        Checkout
+      </button>
+    </div>
+
   </div>
 </div>
 
