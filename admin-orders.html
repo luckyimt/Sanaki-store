@@ -41,35 +41,23 @@
 
 </nav>
 
+<h1 class="text-center mt-2">Order Management</h1>
+
 <div class="container">
 
-  <div class="page-header">
-    <div>
-      <h1>Order Management</h1>
-      <p class="page-subtitle">Monitor and manage customer orders</p>
-    </div>
-
-    <div class="order-stats">
-      <div class="mini-stat">
-        <span id="totalOrders">0</span>
-        <small>Total Orders</small>
-      </div>
-
-      <div class="mini-stat">
-        <span id="pendingOrders">0</span>
-        <small>Pending</small>
-      </div>
-
-      <div class="mini-stat">
-        <span id="shippedOrders">0</span>
-        <small>Shipped</small>
-      </div>
-    </div>
+  <div class="card mt-2">
+    <input
+      type="text"
+      id="orderSearch"
+      class="input"
+      placeholder="Search by Order ID or Status..."
+    >
   </div>
 
-  <div id="adminOrders" class="orders-grid"></div>
+  <div id="adminOrders" class="grid"></div>
 
 </div>
+
 
 <script src="admin-orders.js"></script>
 </body>
