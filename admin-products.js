@@ -63,11 +63,12 @@ function renderProducts() {
           <h3>${p.name}</h3>
           <p class="price">$${p.price}</p>
           <p>Stock: ${p.stock}</p>
+          
         </div>
 
         <div class="flex mt-2">
-          <button class="btn btn-success" onclick="updateStock(${p.id}, 1)">+ Stock</button>
-          <button class="btn btn-outline" onclick="updateStock(${p.id}, -1)">- Stock</button>
+          <button onclick="updateStock(${p.id}, 1)">+ Stock</button>
+          <button onclick="updateStock(${p.id}, -1)">- Stock</button>
           <button class="btn btn-danger" onclick="deleteProduct(${p.id})">Delete</button>
         </div>
       </div>
